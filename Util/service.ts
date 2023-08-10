@@ -3,10 +3,10 @@ const API_URL = "https://api.dfoneople.com/df/" + SERVER;
 const API_KEY = 'apikey=' + process.env.API_KEY;
 
 export interface Character {
-  rows: CharacterRow[]
+  rows: Row[]
 }
 
-export interface CharacterRow {
+export interface Row {
   serverId: string,
   characterId: string,
   characterName: string,
@@ -18,22 +18,18 @@ export interface CharacterRow {
   fame: number
 }
 
-export interface Equppied {
-  rows: EquppiedRow[]
-}
-
-export interface EquppiedRow {
-  characterId: string,
-  characterName: string,
-  level: number,
-  jobId: string,
-  jobGrowId: string,
-  jobName: string,
-  jobGrowName: string,
-  adventureName: string,
-  guildId: string,
-  guildName: string,
-  equipment: Equipment[],
+export interface Equipped {
+  characterId: string
+  characterName: string
+  level: number
+  jobId: string
+  jobGrowId: string
+  jobName: string
+  jobGrowName: string
+  adventureName: string
+  guildId: string
+  guildName: string
+  equipment: Equipment[]
   setItemInfo: any[]
 }
 
@@ -51,15 +47,15 @@ export interface Equipment {
   setItemId: any
   setItemName: any
   reinforce: number
-  itemGradeName: string
-  enchant: Enchant
-  amplificationName: string
+  itemGradeName?: string
+  enchant?: Enchant
+  amplificationName?: string
   refine: number
-  growInfo: GrowInfo
-  engraveName: boolean
-  machineRevolutionInfo: MachineRevolutionInfo
-  upgradeInfo: UpgradeInfo
-  ispinsInfo: IspinsInfo
+  growInfo?: GrowInfo
+  engraveName?: boolean
+  machineRevolutionInfo?: MachineRevolutionInfo
+  upgradeInfo?: UpgradeInfo
+  ispinsInfo?: IspinsInfo
 }
 
 export interface Enchant {
@@ -72,7 +68,7 @@ export interface Status {
 }
 
 export interface GrowInfo {
-  transfer: boolean
+  transfer?: boolean
   total: Total
   options: Option[]
 }
@@ -145,7 +141,7 @@ export async function getCharacter(charName: string): Promise<Character> {
     return res.json();
   }
 
-  export async function getEquipment(charID: string): Promise<Equppied> {
+  export async function getEquipment(charID: string): Promise<Equipped> {
 
     const headers: Headers = new Headers()
     headers.set('Content-Type', 'application/json')
@@ -153,7 +149,8 @@ export async function getCharacter(charName: string): Promise<Character> {
   
     // Create the request object, which will be a RequestInfo type. 
     // Here, we will pass in the URL as well as the options object as parameters.
-    const request: RequestInfo = new Request("https://api.dfoneople.com/df/servers/cain/characters/"+ charID +"/equip/equipment?" +API_KEY, {
+    var equipmentUri = `https://api.dfoneople.com/df/servers/cain/characters/${charID}/equip/equipment?${API_KEY}`;
+    const request: RequestInfo = new Request(equipmentUri, {
       method: 'GET',
       headers: headers
     })
