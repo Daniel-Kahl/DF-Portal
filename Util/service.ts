@@ -14,7 +14,7 @@ export interface Character {
     fame: number
 }
 
-export function getCharacter(charName: string): Promise<Character> {
+export async function getCharacter(charName: string): Promise<Character> {
 
     const headers: Headers = new Headers()
     headers.set('Content-Type', 'application/json')
@@ -26,16 +26,13 @@ export function getCharacter(charName: string): Promise<Character> {
       method: 'GET',
       headers: headers
     })
+
+    const res = await fetch(request);
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch data');
+    }
   
     // Use fetch to retrieve data 
-    return fetch(request)
-      // the JSON body is taken from the response
-      .then(res => res.json())
-      .then(res => {
-        // The response has an `any` type, so we need to cast
-        // it to the `User` type, and return it from the promise
-        //console.log("DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-        //console.log(res[0])
-        return res.rows[0] as Character
-      })
+    return res.json();
   }
