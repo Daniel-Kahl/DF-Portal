@@ -2,19 +2,23 @@ const SERVER = "cain";
 const API_URL = "https://api.dfoneople.com/df/" + SERVER;
 const API_KEY = 'apikey=' + process.env.API_KEY;
 
-export interface Character {
-    serverId: string,
-    characterId: string,
-    characterName: string,
-    level: number,
-    jobId: string,
-    jobGrowId: string,
-    jobName: string,
-    jobGrowName: string,
-    fame: number
+export interface Characters {
+  rows: Row[]
 }
 
-export async function getCharacter(charName: string): Promise<Character> {
+export interface Row {
+  serverId: string
+  characterId: string
+  characterName: string
+  level: number
+  jobId: string
+  jobGrowId: string
+  jobName: string
+  jobGrowName: string
+  fame: number
+}
+
+export async function getCharacter(charName: string): Promise<Characters> {
 
     const headers: Headers = new Headers()
     headers.set('Content-Type', 'application/json')
@@ -22,17 +26,17 @@ export async function getCharacter(charName: string): Promise<Character> {
   
     // Create the request object, which will be a RequestInfo type. 
     // Here, we will pass in the URL as well as the options object as parameters.
-    const request: RequestInfo = new Request("https://api.dfoneople.com/df/servers/cain/characters?characterName=" + charName + "&wordType=match&"+API_KEY, {
+    const request: RequestInfo = new Request("https://api.dfoneople.com/df/servers/cain/characters?characterName=" + charName + "&wordType=match&" + API_KEY, {
       method: 'GET',
       headers: headers
     })
-
+    
+    // Use fetch to retrieve data
     const res = await fetch(request);
 
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
   
-    // Use fetch to retrieve data 
     return res.json();
   }
