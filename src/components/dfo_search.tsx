@@ -54,29 +54,35 @@ export default function DFOSearch() {
 
   return (
     <div className="w-11/12 mx-auto">
-      <TextInput
-        icon={HiOutlineSearch}
-        id="search"
-        placeholder="Search by username"
-        required
-        type="search"
-        onInput={handleInput}
-        className="text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-blue-500 focus:ring-blue-500"
-      />
-      {/* TODO: Figure out the css to get the spinner to go inside the search bar on both mobile and desktop. */}
-      {isLoading && <Spinner className="absolute inset-y-0 right-0 flex items-center pr-2" />} 
-      {searchTerm && ( // only render suggestions if search bar is not empty
-                <ul className="mt-1 rounded-md divide-y divide-gray-200 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-                    {suggestions?.rows?.length !== undefined && suggestions.rows.length > 0 && (
-                        suggestions.rows.map((suggestion, index) => (
-                            <li key={index} className="px-2 py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSearch(suggestion.characterName)}>
-                                <span className="block font-medium text-gray-900">{suggestion.characterName}</span>
-                                <span className="block text-sm text-gray-500">Level: {suggestion.level}</span>
-                            </li>
-                        ))
-                    )}
-                </ul>
-            )}
+      <div className="grid grid-cols-12">
+        <div> 
+          {/* TODO: Figure out the css to get the spinner to go inside the search bar on both mobile and desktop. */}
+          {isLoading && <Spinner className="mr-0"/>} 
+        </div>
+        <div className="col-span-10 left-0">
+          <TextInput
+          icon={HiOutlineSearch}
+          id="search"
+          placeholder="Search by username"
+          required
+          type="search"
+          onInput={handleInput}
+          className="text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-blue-500 focus:ring-blue-500"
+          />
+          {searchTerm && ( // only render suggestions if search bar is not empty
+                  <ul className="mt-1 rounded-md divide-y divide-gray-200 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+                      {suggestions?.rows?.length !== undefined && suggestions.rows.length > 0 && (
+                          suggestions.rows.map((suggestion, index) => (
+                              <li key={index} className="px-2 py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSearch(suggestion.characterName)}>
+                                  <span className="block font-medium text-gray-900">{suggestion.characterName}</span>
+                                  <span className="block text-sm text-gray-500">Level: {suggestion.level}</span>
+                              </li>
+                          ))
+                      )}
+                  </ul>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
