@@ -64,7 +64,21 @@ export async function searchCharacter(searchText: string, rows?: number): Promis
   return res.json();
 }
 
-export async function getBasicCharacterInfo(charId: string): Promise<any> {
+
+export interface CharacterBasicInfo {
+  characterId:   string;
+  characterName: string;
+  level:         number;
+  jobId:         string;
+  jobGrowId:     string;
+  jobName:       string;
+  jobGrowName:   string;
+  adventureName: string;
+  guildId:       string;
+  guildName:     string;
+}
+
+export async function getBasicCharacterInfo(charId: string): Promise<CharacterBasicInfo> {
 
   const headers: Headers = new Headers()
   headers.set('Content-Type', 'application/json')

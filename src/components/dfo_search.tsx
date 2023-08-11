@@ -3,10 +3,9 @@ import { useState, useEffect } from 'react';
 import { Spinner, TextInput } from "flowbite-react";
 import { HiOutlineSearch } from 'react-icons/hi';
 import { Characters } from '../../Util/service';
-import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 export default function DFOSearch() {
-    const { push } = useRouter();
   const [suggestions, setSuggestions] = useState<Characters>({ rows: [] });
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>('');
@@ -15,7 +14,7 @@ export default function DFOSearch() {
   useEffect(() => {
     const timerId = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-    }, 500);
+    }, 400);
 
     return () => {
       clearTimeout(timerId);
@@ -41,17 +40,7 @@ export default function DFOSearch() {
     setSuggestions({ rows: [] }); // clear suggestions when input changes
   };
 
-  const handleSearch = async (name: string) => {
-    const response = await fetch(`/api/character?username=${name}&requestType=match`);
-    const data = await response.json();
-    setSuggestions(data);
-
-    const input = document.getElementById("search") as HTMLInputElement;
-    input.value = name;
-
-    push(`/character/${data.rows[0].characterId}`);
-  };
-
+  //TODO: Display "No Results" if results are empty
   return (
     <div className="w-11/12 mx-auto">
       <div className="mb-5 text-2xl">Character Search</div>
@@ -70,9 +59,11 @@ export default function DFOSearch() {
                   <ul className="mt-1 rounded-md divide-y divide-gray-200 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                       {suggestions?.rows?.length !== undefined && suggestions.rows.length > 0 && (
                           suggestions.rows.map((suggestion, index) => (
-                              <li key={index} className="px-2 py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSearch(suggestion.characterName)}>
+                              <li key={index} className="px-2 py-2 cursor-pointer hover:bg-gray-100">
+                                <Link href={`/character/${suggestion.characterId}`}>
                                   <span className="block font-medium text-gray-900">{suggestion.characterName}</span>
                                   <span className="block text-sm text-gray-500">Level: {suggestion.level}</span>
+                                </Link>
                               </li>
                           ))
                       )}
