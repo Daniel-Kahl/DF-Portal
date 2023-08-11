@@ -1,66 +1,71 @@
 "use client"
 import { useState, useEffect } from 'react';
-import { TextInput } from "flowbite-react";
+import { Spinner, TextInput } from "flowbite-react";
 import { HiOutlineSearch } from 'react-icons/hi';
 import { Characters } from '../../Util/service';
 import { useRouter } from 'next/navigation';
 
 export default function DFOSearch() {
     const { push } = useRouter();
-    const [suggestions, setSuggestions] = useState<Characters>({ rows: [] });
-    const [searchTerm, setSearchTerm] = useState<string>('');
-    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>('');
+  const [suggestions, setSuggestions] = useState<Characters>({ rows: [] });
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    useEffect(() => {
-        const timerId = setTimeout(() => {
-            setDebouncedSearchTerm(searchTerm);
-        }, 500);
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500);
 
-        return () => {
-            clearTimeout(timerId);
-        };
-    }, [searchTerm]);
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchTerm]);
 
-    useEffect(() => {
-        const fetchSuggestions = async () => {
-            const response = await fetch(`/api/character?username=${debouncedSearchTerm}&requestType=full`);
-            const data = await response.json();
-            setSuggestions(data);
-        };
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      setIsLoading(true); // set isLoading to true when fetching suggestions
+      const response = await fetch(`/api/character?username=${debouncedSearchTerm}&requestType=full`);
+      const data = await response.json();
+      setSuggestions(data);
+      setIsLoading(false); // set isLoading to false when suggestions are set
+    };
 
-        if (debouncedSearchTerm) {
-            fetchSuggestions();
-        }
-    }, [debouncedSearchTerm]);
-
-    const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-        setSuggestions({ rows: [] }); // clear suggestions when input changes
+    if (debouncedSearchTerm) {
+      fetchSuggestions();
     }
+  }, [debouncedSearchTerm]);
 
-    const handleSearch = async (name: string) => {
-        const response = await fetch(`/api/character?username=${name}&requestType=match`);
-        const data = await response.json();
-        setSuggestions(data);
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+    setSuggestions({ rows: [] }); // clear suggestions when input changes
+  };
 
-        const input = document.getElementById("search") as HTMLInputElement;
-        input.value = name;
+  const handleSearch = async (name: string) => {
+    const response = await fetch(`/api/character?username=${name}&requestType=match`);
+    const data = await response.json();
+    setSuggestions(data);
 
-        push(`/character/${data.rows[0].characterId}`);
-    }
+    const input = document.getElementById("search") as HTMLInputElement;
+    input.value = name;
 
-    return (
-        <div className="w-11/12 mx-auto">
-            <TextInput
-                icon={HiOutlineSearch}
-                id="search"
-                placeholder="Search by username"
-                required
-                type="search"
-                onInput={handleInput}
-                className="text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-blue-500 focus:ring-blue-500"
-            />
-            {searchTerm && ( // only render suggestions if search bar is not empty
+    push(`/character/${data.rows[0].characterId}`);
+  };
+
+  return (
+    <div className="w-11/12 mx-auto">
+      <TextInput
+        icon={HiOutlineSearch}
+        id="search"
+        placeholder="Search by username"
+        required
+        type="search"
+        onInput={handleInput}
+        className="text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-blue-500 focus:ring-blue-500"
+      />
+      {/* TODO: Figure out the css to get the spinner to go inside the search bar on both mobile and desktop. */}
+      {isLoading && <Spinner className="absolute inset-y-0 right-0 flex items-center pr-2" />} 
+      {searchTerm && ( // only render suggestions if search bar is not empty
                 <ul className="mt-1 rounded-md divide-y divide-gray-200 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                     {suggestions?.rows?.length !== undefined && suggestions.rows.length > 0 && (
                         suggestions.rows.map((suggestion, index) => (
@@ -72,6 +77,6 @@ export default function DFOSearch() {
                     )}
                 </ul>
             )}
-        </div>
-    );
+    </div>
+  );
 }
