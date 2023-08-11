@@ -54,12 +54,9 @@ export default function DFOSearch() {
 
   return (
     <div className="w-11/12 mx-auto">
-      <div className="grid grid-cols-12">
-        <div> 
-          {/* TODO: Figure out the css to get the spinner to go inside the search bar on both mobile and desktop. */}
-          {isLoading && <Spinner className="mr-0"/>} 
-        </div>
-        <div className="col-span-10 left-0">
+      <div className="mb-5 text-2xl">Character Search</div>
+      <div className="flex">
+        <div className="flex-auto w-64">
           <TextInput
           icon={HiOutlineSearch}
           id="search"
@@ -81,6 +78,10 @@ export default function DFOSearch() {
                       )}
                   </ul>
           )}
+        </div>
+        <div className="flex-none">
+          {/* TODO: Figure out the css to get the spinner to go inside the search bar on both mobile and desktop. */}
+          {isLoading ? <Spinner className="w-5 ml-3"/> : <div className="w-5 ml-3"/> }
         </div>
       </div>
     </div>
