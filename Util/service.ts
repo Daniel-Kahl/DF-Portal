@@ -2,6 +2,7 @@ const SERVER = "cain";
 const API_URL = "https://api.dfoneople.com/df/" + SERVER;
 const API_KEY = 'apikey=' + process.env.API_KEY;
 
+
 export interface Characters {
   rows: Row[]
 }
