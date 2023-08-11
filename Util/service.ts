@@ -63,3 +63,26 @@ export async function searchCharacter(searchText: string, rows?: number): Promis
 
   return res.json();
 }
+
+export async function getBasicCharacterInfo(charId: string): Promise<any> {
+
+  const headers: Headers = new Headers()
+  headers.set('Content-Type', 'application/json')
+  headers.set('Accept', 'application/json')
+
+  // Create the request object, which will be a RequestInfo type. 
+  // Here, we will pass in the URL as well as the options object as parameters.
+  const request: RequestInfo = new Request(`https://api.dfoneople.com/df/servers/cain/characters/${charId}?${API_KEY}`, {
+    method: 'GET',
+    headers: headers
+  })
+
+  // Use fetch to retrieve data
+  const res = await fetch(request);
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+}
