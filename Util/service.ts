@@ -83,10 +83,11 @@ export async function getBasicCharacterInfo(charId: string): Promise<CharacterBa
   const headers: Headers = new Headers()
   headers.set('Content-Type', 'application/json')
   headers.set('Accept', 'application/json')
+  headers.set('apikey', process.env.API_KEY??'')
 
   // Create the request object, which will be a RequestInfo type. 
   // Here, we will pass in the URL as well as the options object as parameters.
-  const request: RequestInfo = new Request(`https://api.dfoneople.com/df/servers/cain/characters/${charId}?${API_KEY}`, {
+  const request: RequestInfo = new Request(`https://api.dfoneople.com/df/servers/cain/characters/${charId}`, {
     method: 'GET',
     headers: headers
   })
@@ -98,5 +99,131 @@ export async function getBasicCharacterInfo(charId: string): Promise<CharacterBa
     throw new Error('Failed to fetch data');
   }
 
+  return res.json();
+}
+
+// 05. Search Character "Equipped Equipment"
+export interface Equipped {
+  characterId: string
+  characterName: string
+  level: number
+  jobId: string
+  jobGrowId: string
+  jobName: string
+  jobGrowName: string
+  adventureName: string
+  guildId: string
+  guildName: string
+  equipment: Equipment[]
+  setItemInfo: any[]
+}
+
+export interface Equipment {
+  slotId: string
+  slotName: string
+  itemId: string
+  itemName: string
+  itemTypeId: string
+  itemType: string
+  itemTypeDetailId: string
+  itemTypeDetail: string
+  itemAvailableLevel: number
+  itemRarity: string
+  setItemId: any
+  setItemName: any
+  reinforce: number
+  itemGradeName?: string
+  enchant?: Enchant
+  amplificationName?: any
+  refine: number
+  growInfo?: GrowInfo
+  engraveName?: boolean
+  machineRevolutionInfo?: MachineRevolutionInfo
+  upgradeInfo?: UpgradeInfo
+  ispinsInfo?: IspinsInfo
+}
+
+export interface Enchant {
+  status: Status[]
+}
+
+export interface Status {
+  name: string
+  value: any
+}
+
+export interface GrowInfo {
+  transfer?: boolean
+  total: Total
+  options: Option[]
+}
+
+export interface Total {
+  damage: number
+  buff: number
+  level: number
+}
+
+export interface Option {
+  level: number
+  expRate: number
+  explain: string
+  explainDetail: string
+  damage: number
+  default: Default
+  buff: number
+}
+
+export interface Default {
+  damage: number
+  buff: number
+}
+
+export interface MachineRevolutionInfo {
+  options: Option2[]
+}
+
+export interface Option2 {
+  buff: number
+  explain: string
+  explainDetail: string
+}
+
+export interface UpgradeInfo {
+  itemId: string
+  itemName: string
+}
+
+export interface IspinsInfo {
+  options: Option3[]
+}
+
+export interface Option3 {
+  buff: number
+  explain: string
+  explainDetail: string
+}
+
+export async function getEquipment(charID: string): Promise<Equipped> {
+
+  const headers: Headers = new Headers()
+  headers.set('Content-Type', 'application/json')
+  headers.set('Accept', 'application/json')
+  headers.set('apikey', process.env.API_KEY??'')
+
+  // Create the request object, which will be a RequestInfo type. 
+  // Here, we will pass in the URL as well as the options object as parameters.
+  var equipmentUri = `https://api.dfoneople.com/df/servers/cain/characters/${charID}/equip/equipment?`;
+  const request: RequestInfo = new Request(equipmentUri, {
+    method: 'GET',
+    headers: headers
+  })
+
+  const res = await fetch(request);
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  // Use fetch to retrieve data 
   return res.json();
 }
