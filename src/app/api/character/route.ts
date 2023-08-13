@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getCharacter, searchCharacter } from '../../../../Util/service'
+import { getCharacter, searchCharacter } from '@/util/service'
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);

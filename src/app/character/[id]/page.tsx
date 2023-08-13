@@ -1,16 +1,16 @@
 "use client"
-import {CharacterBasicInfo, Characters, getBasicCharacterInfo, getCharacter, getEquipment,Equipped,Equipment,Enchant,Status,GrowInfo,Total,Option,Default,MachineRevolutionInfo,Option2,UpgradeInfo,IspinsInfo,Option3} from '../../../../Util/service';
+import * as Models from '@/util/models' 
 import {useEffect, useState} from "react";
 import Image from 'next/image'
 
 export default function Page({params}: { params: { id: string } }) {
 
-    const [character, setCharacter] = useState<CharacterBasicInfo>();
+    const [character, setCharacter] = useState<Models.CharacterBasicInfo>();
     const [loading, setLoading] = useState<boolean>(true);
 
     const fetchCharacterBasicInfo = async () => {
         const characterBasicInfoResponse = await fetch(`/api/character/${params.id}`);
-        const characterBasicInfo : CharacterBasicInfo = await characterBasicInfoResponse.json();
+        const characterBasicInfo : Models.CharacterBasicInfo = await characterBasicInfoResponse.json();
         setLoading(false);
         setCharacter(characterBasicInfo);
     }
@@ -27,11 +27,11 @@ export default function Page({params}: { params: { id: string } }) {
         rows.push(<div className="h-7 rounded-full bg-gray-700 w-1/2 mb-1"></div>);
     }
 
-    const [equip, setEquip] = useState<Equipped>();
+    const [equip, setEquip] = useState<Models.Equipped>();
 
     const fetchEquipped = async () => {
         const equippedResponse = await fetch(`/api/equipment/${params.id}`);
-        const equipped : Equipped = await equippedResponse.json();
+        const equipped : Models.Equipped = await equippedResponse.json();
         console.log(equipped);
         setLoading(false);
         setEquip(equipped);

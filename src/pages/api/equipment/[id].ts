@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {Equipped, getEquipment} from "../../../Util/service";
+import {getEquipment} from "@/util/service";
+import {Equipped} from "@/util/models"
 
 export default async function handler(
     req: NextApiRequest,
