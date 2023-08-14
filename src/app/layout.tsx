@@ -1,18 +1,9 @@
-'use client'
-
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { Navbar } from 'flowbite-react'
-import Image from 'next/image'
-// import Link from 'next/link'
+import Nav from '../app/navbar' 
 
 const inter = Inter({ subsets: ['latin'] })
-
-const imageStyle = {
-  borderRadius: '15%',
-  border: '1px solid #000',
-}
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -27,27 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar fluid className=" bg-slate-700">
-          <Navbar.Brand>
-            <Image
-              src="/Ebin.PNG"
-              width={75}
-              height={75}
-              style={imageStyle}
-              alt="Nav Photo"
-            />
-            <span className="self-center mx-5 whitespace-nowrap text-3xl font-bold text-white">
-                DF Portal
-            </span>
-            {/* TODO: Fix Link throwing errors */}
-            {/* <Link href="/">
-              <span className="self-center mx-5 whitespace-nowrap text-2xl font-bold text-black dark:text-white">
-                DF Portal
-              </span>
-            </Link> */}
-          </Navbar.Brand>
-          
-        </Navbar>
+        <Nav></Nav>
 
         {children}
       </body>
