@@ -1,4 +1,4 @@
-import * as Models from '../util/models' 
+import * as Models from '@/util/models' 
 
 const SERVER = "cain";
 const API_URL = "https://api.dfoneople.com/df/" + SERVER;
