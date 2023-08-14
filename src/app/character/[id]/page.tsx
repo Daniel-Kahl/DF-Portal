@@ -1,5 +1,5 @@
 "use client"
-import * as Models from '../../../util/models' 
+import * as Models from '@/util/models' 
 import {useEffect, useState} from "react";
 import Image from 'next/image'
 
