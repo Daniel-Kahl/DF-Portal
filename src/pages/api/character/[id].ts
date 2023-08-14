@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {CharacterBasicInfo, getBasicCharacterInfo} from "../../../util/service";
+import {CharacterBasicInfo} from "../../../util/models";
+import { getBasicCharacterInfo } from "@/util/service";
 
 export default async function handler(
     req: NextApiRequest,
