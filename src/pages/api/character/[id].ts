@@ -1,9 +1,9 @@
 import {NextApiRequest, NextApiResponse} from "next";
-import {Equipped, getEquipment} from "../../../Util/service";
+import {CharacterBasicInfo, getBasicCharacterInfo} from "../../../util/service";
 
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Equipped>
+    res: NextApiResponse<CharacterBasicInfo>
 ) {
     const { query } = req
     const { id } = query
@@ -12,6 +12,6 @@ export default async function handler(
         return res.status(401);
     }
 
-    const data = await getEquipment(id as string);
+    const data = await getBasicCharacterInfo(id as string);
     return res.status(200).json(data);
 }
