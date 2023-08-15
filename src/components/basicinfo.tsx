@@ -4,7 +4,6 @@ export default async function CharacterInfo({charId}: {charId : string}) {
 
     const information = await getBasicCharacterInfo(charId)
 
-
     return (
     <div>
         {information == undefined ? (
@@ -23,7 +22,5 @@ export default async function CharacterInfo({charId}: {charId : string}) {
             </div>
         )}
     </div>
-
-
     )
 }

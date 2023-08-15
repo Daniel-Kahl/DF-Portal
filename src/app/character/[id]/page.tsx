@@ -1,10 +1,8 @@
 import Equipment from "@/components/equipment";
 import Stats from "@/components/stats";
 import CharacterInfo from "@/components/basicinfo";
-import { getBasicCharacterInfo } from "@/util/service";
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const characterBasicInfoResponse = await getBasicCharacterInfo(params.id);
 
   const rows = [];
   for (let i = 0; i < 7; i++) {
