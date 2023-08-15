@@ -1,5 +1,6 @@
 import Equipment from "@/components/equipment";
 import Stats from "@/components/stats";
+import CharacterInfo from "@/components/basicinfo";
 import { getBasicCharacterInfo } from "@/util/service";
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -23,15 +24,9 @@ export default async function Page({ params }: { params: { id: string } }) {
             <span className="sr-only">Loading...</span>
           </div>
         </div>
-      ) : (
-        <div className="p-5">
-          <div>Character Name: {characterBasicInfoResponse.characterName}</div>
-          <div>Character Level: {characterBasicInfoResponse.level}</div>
-          <div>Job Name: {characterBasicInfoResponse.jobName}</div>
-          <div>Advancement: {characterBasicInfoResponse.jobGrowName}</div>
-          <div>Account Name: {characterBasicInfoResponse.adventureName}</div>
-          <div>Guild Name: {characterBasicInfoResponse.guildName}</div>
-        </div>
+      ) : 
+      (
+          <CharacterInfo charId={params.id} />
       )}
 
       <div className="text-2xl p-5">Equipment</div>
