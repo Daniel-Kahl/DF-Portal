@@ -96,11 +96,13 @@
     enchant?: Enchant
     amplificationName?: any
     refine: number
+    bakalInfo?: BakalInfo
     growInfo?: GrowInfo
     engraveName?: boolean
     machineRevolutionInfo?: MachineRevolutionInfo
     upgradeInfo?: UpgradeInfo
     ispinsInfo?: IspinsInfo
+    dimensionCloisterInfo?: DimensionCloisterInfo
   }
   
   export interface Enchant {
@@ -163,6 +165,28 @@
     explain: string
     explainDetail: string
   }
+  
+  export interface DimensionCloisterInfo {
+    options: Option4[]
+  }
+
+  export interface Option4 {
+    damage: number
+    buff: number
+    explain: string
+    explainDetail: string
+  }
+
+  export interface BakalInfo {
+    options: Option5[]
+  }
+
+  export interface Option5 {
+    buff: number
+    explain: string
+    explainDetail: string
+  }
+
   
   // 06. Equipped Avatar
   export interface Avatars {
@@ -469,4 +493,38 @@
     desc: string
     values: string[]
   }
+  
+  // 15. item lookup
+  export interface ItemInfo {
+    itemId: string
+    itemName: string
+    itemRarity: string
+    itemTypeId: string
+    itemType: string
+    itemTypeDetailId: string
+    itemTypeDetail: string
+    itemAvailableLevel: number
+    itemExplain: string
+    itemExplainDetail: string
+    itemFlavorText: string
+    obtainInfo: ObtainInfo
+    setItemId: any
+    setItemName: any
+    itemStatus: ItemStatu[]
+  }
+  
+  export interface ObtainInfo {
+    dungeon: any
+    shop: Shop[]
+  }
+  
+  export interface Shop {
+    type: string
+  }
+  
+  export interface ItemStatu {
+    name: string
+    value: any
+  }
+  
   

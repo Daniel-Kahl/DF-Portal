@@ -275,3 +275,24 @@ export async function getBuffCreature(
   // Use fetch to retrieve data
   return res.json();
 }
+
+// 15. Getting item information API call
+export async function getItemInfo(
+  itemId: string
+): Promise<Models.ItemInfo> {
+  // Create the request object, which will be a RequestInfo type.
+  // Here, we will pass in the URL as well as the options object as parameters.
+  var itemInfoURI = `https://api.dfoneople.com/df/items/${itemId}?`;
+  const request: RequestInfo = new Request(itemInfoURI, {
+    method: "GET",
+    headers: DEFAULT_HEADER,
+  });
+
+  const res = await fetch(request);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  // Use fetch to retrieve data
+  return res.json();
+}
