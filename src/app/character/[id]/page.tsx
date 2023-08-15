@@ -15,10 +15,8 @@ export default async function Page({ params }: { params: { id: string } }) {
     <div className="container mx-auto max-w-2xl m-10">
       <div className="text-2xl p-5">Basic Character Information</div>
       <hr />
-          <CharacterInfo charId={params.id} />
-
+        <CharacterInfo charId={params.id} />
       <div className="text-2xl p-5">Equipment</div>
-
       <Equipment charId={params.id} />
       <Stats charId={params.id}/>
     </div>
