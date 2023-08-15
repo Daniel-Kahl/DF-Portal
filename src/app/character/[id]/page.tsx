@@ -1,4 +1,5 @@
 import Equipment from "@/components/equipment";
+import Talismans from "@/components/talisman";
 import { getBasicCharacterInfo } from "@/util/service";
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -36,6 +37,8 @@ export default async function Page({ params }: { params: { id: string } }) {
       <div className="text-2xl p-5">Equipment</div>
 
       <Equipment charId={params.id} />
+
+      <Talismans charId={params.id} />
     </div>
   );
 }
