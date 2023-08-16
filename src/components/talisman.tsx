@@ -2,6 +2,7 @@
 import * as Models from '@/util/models' 
 import {useEffect, useState} from "react";
 import Image from 'next/image'
+import {getItemInfo} from '@/util/service'
 
 export default function Talismans( { charId }: { charId: string } ) {
 
@@ -37,7 +38,7 @@ export default function Talismans( { charId }: { charId: string } ) {
                 <div className="p-5">
                     
                     {talismans.talismans.map((talisman, index) => (
-                        <div>
+                        <div key={talisman.talisman.slotNo}>
                             <Talisman
                                 talisman={talisman}
                                 runeTypes={talisman.talisman.runeTypes}
@@ -80,7 +81,7 @@ function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[],
                     </div>
                     <div className="col-span-3">
                         {talismanInfo.runeTypes.map((rune, index) => (
-                            <div>
+                            <div key={index}>
                                 <RuneType 
                                     runeColor = {talismanInfo.runeMap.get(rune)!} 
                                     runeName  = {rune}
@@ -107,10 +108,17 @@ function RuneType(rune: {runeColor: string, runeName: string}){
 }
 
 function Rune(runes: {talisman: Models.Talisman}){
+    const runeRarity = new Map<string, string>([
+        ["Cracked",     "##FFFFFF"],
+        ["Discolored",  "##68D5ED"],
+        ["Vivid",       "##B36BFF"],
+        ["Ornate",      "##FF00FF"]
+    ]);
+    
     return(
         <div>
             {runes.talisman.runes.map((rune, index) => (
-                <div>
+                <div key={index}>
                     <div>{rune.itemName}</div>
                 </div>
             ))}
