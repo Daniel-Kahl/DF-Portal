@@ -13,7 +13,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="container mx-auto max-w-2xl m-10">
+    <div className="container mx-auto max-w-5xl m-10">
       <div className="text-2xl p-5">Basic Character Information</div>
       <hr />
       <CharacterInfo charId={params.id} />

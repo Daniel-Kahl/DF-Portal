@@ -29,7 +29,7 @@ export default function Talismans( { charId }: { charId: string } ) {
     }, [])
 
     return(
-        <div className="container mx-auto max-w-2xl m-10">
+        <div className="container mx-auto max-w-5xl m-10">
             {talismans == undefined ? (
                 <div>
                     loading
@@ -38,14 +38,11 @@ export default function Talismans( { charId }: { charId: string } ) {
                 <div className="p-5">
                     
                     {talismans.talismans.map((talisman, index) => (
-                        <div key={talisman.talisman.slotNo}>
+                        <div key={talisman.talisman.slotNo} className='p-3'>
                             <Talisman
                                 talisman={talisman}
                                 runeTypes={talisman.talisman.runeTypes}
                                 runeMap={runeColors}
-                            />
-                            <Rune
-                                talisman={talisman}
                             />
                         </div>
                     ))}
@@ -58,18 +55,24 @@ export default function Talismans( { charId }: { charId: string } ) {
 }
 
 function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[], runeMap: Map<string,string>}){
+    const imageStyle = {
+        borderRadius: '25%',
+        border: '1px solid #000',
+    }
+    
     return(
-        <div className="grid grid-rows-8">
+        <div className="grid grid-rows-8 rounded-3xl bg-slate-700 p-4 mb-5">
             <div className="col-span-1">
                 <div>
-                    <h1 className="text-xl">
+                    <h1 className="text-xl mb-2">
                         {talismanInfo.talisman.talisman.itemName}
                     </h1>
                 </div>
             </div>
             
             <div className="col-span-1">
-                <div className="grid grid-cols-8">
+                <div className="grid grid-cols-9">
+                    <div className='col-span-1'></div>
                     <div className="col-span-1">
                         <Image
                             src={"https://img-api.dfoneople.com/df/items/" + talismanInfo.talisman.talisman.itemId}
@@ -77,9 +80,10 @@ function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[],
                             height={75}
                             alt="talisman image"
                             unoptimized={true}
+                            style = {imageStyle}
                         /> 
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-2">
                         {talismanInfo.runeTypes.map((rune, index) => (
                             <div key={index}>
                                 <RuneType 
@@ -88,10 +92,17 @@ function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[],
                                 />
                             </div>
                         ))}
-                    </div> 
+                    </div>
+                    <div className="col-span-4">
+                        <Rune
+                            talisman={talismanInfo.talisman}
+                        />
+                    </div>
+                    <div className='col-span-1'></div>
                 </div>
             </div>
             <br/>
+            
         </div>
     );
 }
@@ -99,27 +110,25 @@ function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[],
 function RuneType(rune: {runeColor: string, runeName: string}){
 
     return(
-        <div>
-            <div style={{color: rune.runeColor}}>
-                {rune.runeName}
-            </div>
+        <div style={{color: rune.runeColor}}>
+            {"[" + rune.runeName + "]"}
         </div>
     )
 }
 
 function Rune(runes: {talisman: Models.Talisman}){
     const runeRarity = new Map<string, string>([
-        ["Cracked",     "##FFFFFF"],
-        ["Discolored",  "##68D5ED"],
-        ["Vivid",       "##B36BFF"],
-        ["Ornate",      "##FF00FF"]
+        ["Cracked",     "#FFFFFF"],
+        ["Discolored",  "#68D5ED"],
+        ["Vivid",       "#B36BFF"],
+        ["Ornate",      "#FF00FF"]
     ]);
     
     return(
         <div>
             {runes.talisman.runes.map((rune, index) => (
                 <div key={index}>
-                    <div>{rune.itemName}</div>
+                    <div style={{color: runeRarity.get(rune.itemName.split(" ", 2)[0])}}>{rune.itemName}</div>
                 </div>
             ))}
         </div>
