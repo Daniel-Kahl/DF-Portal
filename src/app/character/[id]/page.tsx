@@ -1,9 +1,9 @@
+import CharacterInfo from "@/components/basicinfo";
 import Equipment from "@/components/equipment";
 import Talismans from "@/components/talisman";
-import { getBasicCharacterInfo } from "@/util/service";
+import Stats from "@/components/stats";
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const characterBasicInfoResponse = await getBasicCharacterInfo(params.id);
 
   const rows = [];
   for (let i = 0; i < 7; i++) {
@@ -16,29 +16,18 @@ export default async function Page({ params }: { params: { id: string } }) {
     <div className="container mx-auto max-w-2xl m-10">
       <div className="text-2xl p-5">Basic Character Information</div>
       <hr />
-      {characterBasicInfoResponse == undefined ? (
-        <div>
-          <div role="status" className="animate-pulse mb-5">
-            {rows}
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      ) : (
-        <div className="p-5">
-          <div>Character Name: {characterBasicInfoResponse.characterName}</div>
-          <div>Character Level: {characterBasicInfoResponse.level}</div>
-          <div>Job Name: {characterBasicInfoResponse.jobName}</div>
-          <div>Advancement: {characterBasicInfoResponse.jobGrowName}</div>
-          <div>Account Name: {characterBasicInfoResponse.adventureName}</div>
-          <div>Guild Name: {characterBasicInfoResponse.guildName}</div>
-        </div>
-      )}
-
+      <CharacterInfo charId={params.id} />
+      
       <div className="text-2xl p-5">Equipment</div>
-
+      <hr/>
       <Equipment charId={params.id} />
 
+      <div className="text-2xl p-5">Talismans</div>
+      <hr />
       <Talismans charId={params.id} />
+
+      <Stats charId={params.id}/>
+
     </div>
   );
 }

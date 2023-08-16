@@ -29,31 +29,29 @@ export default function Talismans( { charId }: { charId: string } ) {
 
     return(
         <div className="container mx-auto max-w-2xl m-10">
-            <div className="text-4xl p-5">Talismans</div>
-            <hr />
-        {talismans == undefined ? (
-            <div>
-                loading
-            </div>
-        ) : (
-            <div className="p-5">
-                
-                {talismans.talismans.map((talisman, index) => (
-                    <div>
-                        <Talisman
-                            talisman={talisman}
-                            runeTypes={talisman.talisman.runeTypes}
-                            runeMap={runeColors}
-                        />
-                        <Rune
-                            talisman={talisman}
-                        />
-                    </div>
-                ))}
-                
-            </div>
+            {talismans == undefined ? (
+                <div>
+                    loading
+                </div>
+            ) : (
+                <div className="p-5">
+                    
+                    {talismans.talismans.map((talisman, index) => (
+                        <div>
+                            <Talisman
+                                talisman={talisman}
+                                runeTypes={talisman.talisman.runeTypes}
+                                runeMap={runeColors}
+                            />
+                            <Rune
+                                talisman={talisman}
+                            />
+                        </div>
+                    ))}
+                    
+                </div>
 
-        )}
+            )}
         </div>
     );
 }
@@ -113,14 +111,6 @@ function Rune(runes: {talisman: Models.Talisman}){
         <div>
             {runes.talisman.runes.map((rune, index) => (
                 <div>
-                    <Image
-                        src={"https://img-api.dfoneople.com/df/items/" + rune.itemId}
-                        width={50}
-                        height={50}
-                        alt="Rune image"
-                        unoptimized={true}
-                    /> 
-                    <div>{"https://img-api.dfoneople.com/df/items/" + rune.itemId}</div>
                     <div>{rune.itemName}</div>
                 </div>
             ))}
