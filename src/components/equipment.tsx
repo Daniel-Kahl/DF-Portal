@@ -1,11 +1,13 @@
+"use client"
 import { getEquipment, getItemInfo } from "@/util/service";
 import Image from "next/image";
 import * as Models from "@/util/models";
+import {useEffect, useState} from "react";
 import { text } from "stream/consumers";
 import { wrap } from "module";
 import { isAbsolute } from "path";
 
-async function Options({option}: {option: Models.Option}) {
+function Options({option}: {option: Models.Option}) {
 // basic 105 gear options
   const damage = option.damage
   return (
@@ -26,7 +28,7 @@ async function Options({option}: {option: Models.Option}) {
   )
 }
 
-async function Option3({option3}: {option3: Models.Option3}) {
+function Option3({option3}: {option3: Models.Option3}) {
 //ispin fusion
   return (
     <div>
@@ -37,7 +39,7 @@ async function Option3({option3}: {option3: Models.Option3}) {
     </div>
   )
 }
-async function Option2({option2}: {option2: Models.Option2}) {
+function Option2({option2}: {option2: Models.Option2}) {
 // bakal fusion
   return (
     <div>
@@ -48,7 +50,7 @@ async function Option2({option2}: {option2: Models.Option2}) {
     </div>
   )
 }
-async function Option4({option4}: {option4: Models.Option4}) {
+function Option4({option4}: {option4: Models.Option4}) {
 // dimension fusion
   return (
     <div>
@@ -60,7 +62,7 @@ async function Option4({option4}: {option4: Models.Option4}) {
   )
 }
 
-async function Option5({option5}: {option5: Models.Option5}) {
+function Option5({option5}: {option5: Models.Option5}) {
   // bakal weapon fusion
     return (
       <div>
@@ -69,7 +71,7 @@ async function Option5({option5}: {option5: Models.Option5}) {
     )
   }
 
-async function Status({status}: {status: Models.Status}) {
+function Status({status}: {status: Models.Status}) {
 // enchants
   return (
     <div style = {{
@@ -81,7 +83,7 @@ async function Status({status}: {status: Models.Status}) {
   )
 }
 
-async function FusionImage({fusionimage}: {fusionimage: Models.Equipment}) {
+function FusionImage({fusionimage}: {fusionimage: Models.Equipment}) {
   // returns image of fusion equipment
   const rarityColors = new Map<string, string>([
     ["Common",     "#FFFFFF"],
@@ -111,7 +113,7 @@ async function FusionImage({fusionimage}: {fusionimage: Models.Equipment}) {
   )
 }
 
-async function BaseItemImage({baseitemimage}: {baseitemimage: Models.Equipment}) {
+function BaseItemImage({baseitemimage}: {baseitemimage: Models.Equipment}) {
   // returns image of base equipment
   const rarityColors = new Map<string, string>([
     ["Common",     "#FFFFFF"],
@@ -138,8 +140,7 @@ async function BaseItemImage({baseitemimage}: {baseitemimage: Models.Equipment})
     </div>
   )
 }
-
-async function AllItemimage({itemimage}: {itemimage: Models.Equipment}) {
+function AllItemimage({itemimage}: {itemimage: Models.Equipment}) {
   // returns both base and fusion equipment images
   return (
     <div style = {{
@@ -163,7 +164,7 @@ async function AllItemimage({itemimage}: {itemimage: Models.Equipment}) {
   )
 }
 
-async function Upgrade({upgrade}: {upgrade: Models.Equipment}) {
+function Upgrade({upgrade}: {upgrade: Models.Equipment}) {
   // returns the reinforcement or amplification of an item
   var color = "#0096FF"
   if (upgrade.amplificationName != undefined) {
@@ -183,7 +184,7 @@ async function Upgrade({upgrade}: {upgrade: Models.Equipment}) {
     )
 }
 
-async function Fusion({fusion}: {fusion: Models.Equipment}) {
+function Fusion({fusion}: {fusion: Models.Equipment}) {
   // gets info on fusion equipment
   return (
     <div>
@@ -215,7 +216,7 @@ async function Fusion({fusion}: {fusion: Models.Equipment}) {
   )
 }
 
-async function Total({total}: {total : Models.Total}) {
+function Total({total}: {total : Models.Total}) {
   // basic information for 105 epic gear
   return (
     <div>  
@@ -231,26 +232,43 @@ async function Total({total}: {total : Models.Total}) {
   )
 }
 
-async function ItemInfo({itemInfo}: {itemInfo: Models.Equipment}) {
+function ItemInfo({itemInfo}: {itemInfo: Models.Equipment}) {
   // returns general item info, applicable to nearly all items
-  const itemid = await getItemInfo(itemInfo.itemId)
-  return (
-    <div>
-      <div>
-        General Stats:
-      </div>
-    <div>
-      {itemid.itemStatus.map((itemStatu,index) => (
-        <ItemStatu key={index} itemStatu={itemStatu} />
-      ))
-      }
-    </div>
-      {`${itemid.itemExplainDetail}`}
-    </div>
-  )
+  const [item, setItemInfo] = useState<Models.ItemInfo>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetchItemInfo = async () => {
+    const itemInfoResponse = await fetch(`/api/item/${itemInfo.itemId}`);
+    const itemInfos : Models.ItemInfo = await itemInfoResponse.json();
+    setLoading(false);
+    setItemInfo(itemInfos);
 }
 
-async function ItemStatu({itemStatu}: {itemStatu: Models.ItemStatu}) {
+  useEffect(() => { // Runs once on page loadup
+      fetchItemInfo();
+  }, [])
+  return (
+      <div className="">
+      {item == undefined ? (
+        <div>
+          loading
+        </div>
+      ) : (
+      <div>
+      {item.itemStatus.map((equip, index)=> (
+        <ItemStatu key={index} itemStatu={equip} />
+      ))}
+      <div>
+      {`${item.itemExplainDetail}`}
+    </div>
+      </div>
+  )}
+  
+  </div>
+  );
+}
+
+function ItemStatu({itemStatu}: {itemStatu: Models.ItemStatu}) {
   // returns specific general item info
   if ((itemStatu.name !== 'Durability') && (itemStatu.name !== 'Adventurer Fame') && (itemStatu.name !== 'Attack attribute')) {
     return (
@@ -261,7 +279,7 @@ async function ItemStatu({itemStatu}: {itemStatu: Models.ItemStatu}) {
   }
 }
 
-async function Basic({basic}: {basic: Models.Equipment}) {
+function Basic({basic}: {basic: Models.Equipment}) {
   // returns html displaying basic gear information
   const rarityColors = new Map<string, string>([
     ["Common",     "#FFFFFF"],
@@ -319,7 +337,7 @@ async function Basic({basic}: {basic: Models.Equipment}) {
   )
 }
 
-async function FusionCheck({fusionCheck}: {fusionCheck: Models.Equipment}) {
+function FusionCheck({fusionCheck}: {fusionCheck: Models.Equipment}) {
   // checks if a piece has a fusion and returns information on the fusion equipment
   if (fusionCheck.upgradeInfo != undefined) {
     return (
@@ -348,24 +366,28 @@ async function FusionCheck({fusionCheck}: {fusionCheck: Models.Equipment}) {
       </div>
     )
   }
-
 }
 
-async function Item({equipItem}: {equipItem : Models.Equipment}) {
+function Item({equipItem}: {equipItem : Models.Equipment}) {
   // creates a 'card' for each piece of equipment a character is wearing
   return (
     <div>
+      <div className="px-2 py-2 bg-[#5e1661] text-[#fae3fc] cursor-pointer hover:bg-[#260d2c] hover:text-[#ffffff]" style={{
+
+      }}>
+        {equipItem.slotName}
     <div>
-      {equipItem.slotName}
     </div>
     <div>
     <AllItemimage itemimage={equipItem} />
     </div>
-    <div className= "grid grid-cols-3 gap-4 px-4 py-2 bg-[#000000] text-red-500 rounded-3xl m-1 p-1"style = {{
+    </div>
+    <div className= "grid grid-cols-3 gap-4 px-4 py-2 bg-[#000000] text-red-500 rounded-3xl m-1 p-1 "
+style = {{
       fontSize: 10
     }}>
       <div className= "border m-1 p-2">
-      <Basic basic={equipItem}/>        
+      <Basic basic={equipItem}/>
       </div>
       <div className= "border m-1 p-2">
       <ItemInfo itemInfo={equipItem}/>
@@ -378,15 +400,35 @@ async function Item({equipItem}: {equipItem : Models.Equipment}) {
   );
 }
 
-export default async function Equipment({ charId }: { charId: string }) {
+export default function Equipment({ charId }: { charId: string }) {
   // maps equipment
-  const equip = await getEquipment(charId);
-  return (
+
+  const [equipment, setEquipment] = useState<Models.Equipped>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetchEquipment = async () => {
+    const equipmentResponse = await fetch(`/api/equipment/${charId}`);
+    const characterEquipment : Models.Equipped = await equipmentResponse.json();
+    setLoading(false);
+    setEquipment(characterEquipment);
+}
+
+  useEffect(() => { // Runs once on page loadup
+      fetchEquipment();
+  }, [])
+  return(
     <div className="p-5">
-      {equip.equipment.map((equip, index) => (
+      {equipment == undefined ? (
+        <div>
+          loading
+        </div>
+      ) : (
+        <div>
+      {equipment.equipment.map((equip, index)=> (
         <Item key={index} equipItem={equip} />
       ))}
-    </div>
-    
+      </div>
+  )}
+  </div>
   );
 }
