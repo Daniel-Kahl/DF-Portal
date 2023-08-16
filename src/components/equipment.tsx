@@ -181,6 +181,31 @@ async function Total({total}: {total : Models.Total}) {
   )
 }
 
+async function ItemInfo({itemInfo}: {itemInfo: Models.Equipment}) {
+  const itemid = await getItemInfo(itemInfo.itemId)
+  return (
+    <div>
+    <div>
+      {itemid.itemStatus.map((itemStatu,index) => (
+        <ItemStatu key={index} itemStatu={itemStatu} />
+      ))
+      }
+    </div>
+      {`${itemid.itemExplainDetail}`}
+    </div>
+  )
+}
+
+async function ItemStatu({itemStatu}: {itemStatu: Models.ItemStatu}) {
+  if (itemStatu.name !== 'Durability') {
+    return (
+      <div>
+        {`${itemStatu.name}: ${itemStatu.value}`}
+      </div>
+    )
+  }
+}
+
 async function Basic({basic}: {basic: Models.Equipment}) {
   return (
     <div>
@@ -227,9 +252,11 @@ async function FusionCheck({fusionCheck}: {fusionCheck: Models.Equipment}) {
 }
 
 async function Item({equipItem}: {equipItem : Models.Equipment}) {
-  const itemid = await getItemInfo(equipItem.itemId)
   return (
-    <div className= "grid grid-cols-2 gap-4 px-4 py-2 bg-[#000000] text-red-500 rounded-3xl m-2 font-serif">
+    <div className= "grid grid-cols-3 gap-4 px-4 py-2 bg-[#000000] text-red-500 rounded-3xl m-2 font-serif">
+      <div>
+        <ItemInfo itemInfo={equipItem}/>
+      </div>
       <div>
       <Basic basic={equipItem}/>
     </div>
