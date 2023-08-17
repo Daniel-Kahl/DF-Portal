@@ -107,13 +107,23 @@
   
   export interface Enchant {
     status: Status[]
+    reinforceSkill?: ReinforceSkill[]
   }
   
   export interface Status {
     name: string
     value: any
   }
-  
+  export interface ReinforceSkill {
+    jobId: string
+    jobName: string
+    skills: Skill[]
+  }
+  export interface Skill {
+    skillId: string
+    name: string
+    value: number
+  }
   export interface GrowInfo {
     transfer?: boolean
     total: Total
