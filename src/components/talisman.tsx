@@ -3,6 +3,7 @@ import * as Models from '@/util/models'
 import {useEffect, useState} from "react";
 import Image from 'next/image'
 import {getItemInfo} from '@/util/service'
+import { Accordion } from 'flowbite-react';
 
 export default function Talismans( { charId }: { charId: string } ) {
 
@@ -39,11 +40,23 @@ export default function Talismans( { charId }: { charId: string } ) {
                     
                     {talismans.talismans.map((talisman, index) => (
                         <div key={talisman.talisman.slotNo} className='p-3'>
-                            <Talisman
-                                talisman={talisman}
-                                runeTypes={talisman.talisman.runeTypes}
-                                runeMap={runeColors}
-                            />
+                            <Accordion collapseAll>
+                                <Accordion.Panel>
+                                    <Accordion.Title>  
+                                        <Talisman
+                                            talisman={talisman}
+                                            runeTypes={talisman.talisman.runeTypes}
+                                            runeMap={runeColors}
+                                        />
+                                    </Accordion.Title>
+
+                                    <Accordion.Content>
+                                        <div>
+                                            Content
+                                        </div>
+                                    </Accordion.Content>
+                                </Accordion.Panel>
+                            </Accordion>
                         </div>
                     ))}
                     
