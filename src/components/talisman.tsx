@@ -76,7 +76,6 @@ function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[],
         border: '1px solid #000',
     }
     
-    
     return(
         <div className="grid grid-rows-8 rounded-3xl bg-slate-700 p-4 mb-5">
             <div className="col-span-1">
@@ -122,7 +121,11 @@ function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[],
                         </div>
                     ) : (
                         <div>
-                            {talismanDetails.itemExplain}
+                            {talismanDetails.itemStatus.map((stat, index) => (
+                                <div>
+                                    {stat.name + ": " + stat.value}
+                                </div>
+                            ))}
                         </div>
                     )}
                     </div>

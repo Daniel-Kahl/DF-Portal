@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       
       <div className="text-2xl p-5">Equipment</div>
       <hr/>
-      <Equipment charId={params.id} />
+      {/* <Equipment charId={params.id} /> */}
 
       <div className="text-2xl p-5">Talismans</div>
       <hr />
