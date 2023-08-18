@@ -117,9 +117,9 @@
   export interface ReinforceSkill {
     jobId: string
     jobName: string
-    skills: Skill[]
+    skills: EncSkill[]
   }
-  export interface Skill {
+  export interface EncSkill {
     skillId: string
     name: string
     value: number
@@ -152,10 +152,10 @@
   }
   
   export interface MachineRevolutionInfo {
-    options: Option2[]
+    options: Machine[]
   }
   
-  export interface Option2 {
+  export interface Machine {
     buff: number
     explain: string
     explainDetail: string
@@ -167,20 +167,20 @@
   }
   
   export interface IspinsInfo {
-    options: Option3[]
+    options: Ispins[]
   }
   
-  export interface Option3 {
+  export interface Ispins {
     buff: number
     explain: string
     explainDetail: string
   }
   
   export interface DimensionCloisterInfo {
-    options: Option4[]
+    options: Hall[]
   }
 
-  export interface Option4 {
+  export interface Hall {
     damage: number
     buff: number
     explain: string
@@ -188,10 +188,10 @@
   }
 
   export interface BakalInfo {
-    options: Option5[]
+    options: Bakal[]
   }
 
-  export interface Option5 {
+  export interface Bakal {
     buff: number
     explain: string
     explainDetail: string
