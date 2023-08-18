@@ -1,9 +1,9 @@
 import Equipment from "@/components/equipment";
 import Stats from "@/components/stats";
 import CharacterInfo from "@/components/basicinfo";
+import CharacterTabs from "@/components/characterTabs";
 
 export default async function Page({ params }: { params: { id: string } }) {
-
   const rows = [];
   for (let i = 0; i < 7; i++) {
     // note: we are adding a key prop here to allow react to uniquely identify each
@@ -15,10 +15,9 @@ export default async function Page({ params }: { params: { id: string } }) {
     <div className="container mx-auto max-w-2xl m-10">
       <div className="text-2xl p-5">Basic Character Information</div>
       <hr />
-        <CharacterInfo charId={params.id} />
+      <CharacterInfo charId={params.id} />
       <div className="text-2xl p-5">Equipment</div>
-      <Equipment charId={params.id} />
-      <Stats charId={params.id}/>
+      <CharacterTabs charId={params.id} stats={<Stats charId={params.id} />} />
     </div>
   );
 }
