@@ -58,11 +58,12 @@ export default function Talismans( { charId }: { charId: string } ) {
 }
 
 function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[], runeMap: Map<string,string>}){
-    const [talismanDetails, setTalismanDetails] = useState<Models.ItemInfo[]>();
+    const [talismanDetails, setTalismanDetails] = useState<Models.ItemInfo>();
     
     const fetchTaliInfo = async (itemId: string) => {
         const taliInfoResponse = await fetch(`/api/item/${itemId}`)
-        
+        const talismanInfo : Models.ItemInfo = await taliInfoResponse.json();
+        setTalismanDetails(talismanInfo);
     }
 
     // Runs once on page loadup
@@ -115,7 +116,15 @@ function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[],
                         />
                     </div>
                     <div className='col-span-1'>
-                        
+                    {(talismanDetails == undefined) ? (
+                        <div>
+                            loading
+                        </div>
+                    ) : (
+                        <div>
+                            {talismanDetails.itemExplain}
+                        </div>
+                    )}
                     </div>
                 </div>
             </div>
