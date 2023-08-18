@@ -2,14 +2,13 @@
 import * as Models from '@/util/models' 
 import {useEffect, useState} from "react";
 import Image from 'next/image'
-import {getItemInfo} from '@/util/service'
 import { Accordion } from 'flowbite-react';
 
 export default function Talismans( { charId }: { charId: string } ) {
 
     const [talismans, setTalisman] = useState<Models.Talismans>();
     const [loading, setLoading] = useState<boolean>(true);
-    
+
     const runeColors = new Map<string, string>([
         ["Terra Cotta",     "#CC00CC"],
         ["The Guardians",   "#81C4DF"],
@@ -24,14 +23,15 @@ export default function Talismans( { charId }: { charId: string } ) {
         setLoading(false);
         setTalisman(characterTalismans);
     }
-
-    useEffect(() => { // Runs once on page loadup
-        fetchTalismans();
+    
+    // Runs once on page loadup
+    useEffect(() => { 
+        fetchTalismans()
     }, [])
 
     return(
         <div className="container mx-auto max-w-5xl m-10">
-            {talismans == undefined ? (
+            {(talismans == undefined) ? (
                 <div>
                     loading
                 </div>
@@ -40,23 +40,13 @@ export default function Talismans( { charId }: { charId: string } ) {
                     
                     {talismans.talismans.map((talisman, index) => (
                         <div key={talisman.talisman.slotNo} className='p-3'>
-                            <Accordion collapseAll>
-                                <Accordion.Panel>
-                                    <Accordion.Title>  
-                                        <Talisman
-                                            talisman={talisman}
-                                            runeTypes={talisman.talisman.runeTypes}
-                                            runeMap={runeColors}
-                                        />
-                                    </Accordion.Title>
-
-                                    <Accordion.Content>
-                                        <div>
-                                            Content
-                                        </div>
-                                    </Accordion.Content>
-                                </Accordion.Panel>
-                            </Accordion>
+                             
+                            <Talisman
+                                talisman={talisman}
+                                runeTypes={talisman.talisman.runeTypes}
+                                runeMap={runeColors}
+                            />
+ 
                         </div>
                     ))}
                     
@@ -68,10 +58,23 @@ export default function Talismans( { charId }: { charId: string } ) {
 }
 
 function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[], runeMap: Map<string,string>}){
+    const [talismanDetails, setTalismanDetails] = useState<Models.ItemInfo[]>();
+    
+    const fetchTaliInfo = async (itemId: string) => {
+        const taliInfoResponse = await fetch(`/api/item/${itemId}`)
+        
+    }
+
+    // Runs once on page loadup
+    useEffect(() => { 
+        fetchTaliInfo(talismanInfo.talisman.talisman.itemId)
+    }, [])
+
     const imageStyle = {
         borderRadius: '25%',
         border: '1px solid #000',
     }
+    
     
     return(
         <div className="grid grid-rows-8 rounded-3xl bg-slate-700 p-4 mb-5">
@@ -111,7 +114,9 @@ function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[],
                             talisman={talismanInfo.talisman}
                         />
                     </div>
-                    <div className='col-span-1'></div>
+                    <div className='col-span-1'>
+                        
+                    </div>
                 </div>
             </div>
             <br/>
@@ -121,7 +126,6 @@ function Talisman(talismanInfo: {talisman: Models.Talisman, runeTypes: string[],
 }
 
 function RuneType(rune: {runeColor: string, runeName: string}){
-
     return(
         <div style={{color: rune.runeColor}}>
             {"[" + rune.runeName + "]"}
