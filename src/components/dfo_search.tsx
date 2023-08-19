@@ -47,6 +47,7 @@ export default function DFOSearch() {
       <div className="flex">
         <div className="flex-auto w-64">
           <TextInput
+          autoComplete='new-password'
           icon={HiOutlineSearch}
           id="search"
           placeholder="Search by username"
@@ -62,8 +63,15 @@ export default function DFOSearch() {
                               <li key={index} className="px-2 py-2 cursor-pointer hover:bg-gray-200">
                                 <Link href={`/character/${suggestion.characterId}`}>
                                   <span className="block font-medium text-gray-900">{suggestion.characterName}</span>
-                                  <span className="block text-sm text-gray-500">Level: {suggestion.level}</span>
-                                </Link>
+                                  <span className="block text-base text-gray-500">Class: {suggestion.jobGrowName}</span>
+                                  {(suggestion.fame == undefined) ? (
+                                    <span className="block text-sm text-gray-500">Level: {suggestion.level}</span>
+                                  ) : (
+                                    <span className="block text-sm text-gray-500">Level: {suggestion.level} | Fame: {suggestion.fame}</span>
+                                  )}
+                                  
+                                  
+                                  </Link>
                               </li>
                           ))
                       )}

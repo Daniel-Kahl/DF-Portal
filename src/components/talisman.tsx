@@ -40,13 +40,25 @@ export default function Talismans( { charId }: { charId: string } ) {
                     
                     {talismans.talismans.map((talisman, index) => (
                         <div key={talisman.talisman.slotNo} className='p-3'>
-                             
-                            <Talisman
-                                talisman={talisman}
-                                runeTypes={talisman.talisman.runeTypes}
-                                runeMap={runeColors}
-                            />
- 
+                            <Accordion collapseAll>
+                                <Accordion.Panel>
+                                    <Accordion.Title>
+                                        <Talisman
+                                            talisman={talisman}
+                                            runeTypes={talisman.talisman.runeTypes}
+                                            runeMap={runeColors}
+                                        />
+                                    </Accordion.Title> 
+
+                                    <Accordion.Content>
+                                        <div>Talisman Info Here</div>
+                                        
+                                        {/* <TalismanDetails
+                                            talisman={talisman}
+                                        /> */}
+                                    </Accordion.Content>
+                                </Accordion.Panel>
+                            </Accordion>
                         </div>
                     ))}
                     

@@ -1,10 +1,10 @@
-import CharacterInfo from "@/components/basicinfo";
 import Equipment from "@/components/equipment";
 import Talismans from "@/components/talisman";
 import Stats from "@/components/stats";
+import CharacterInfo from "@/components/basicinfo";
+import CharacterTabs from "@/components/characterTabs";
 
 export default async function Page({ params }: { params: { id: string } }) {
-
   const rows = [];
   for (let i = 0; i < 7; i++) {
     // note: we are adding a key prop here to allow react to uniquely identify each
@@ -17,17 +17,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       <div className="text-2xl p-5">Basic Character Information</div>
       <hr />
       <CharacterInfo charId={params.id} />
-      
-      <div className="text-2xl p-5">Equipment</div>
-      <hr/>
-      {/* <Equipment charId={params.id} /> */}
-
-      <div className="text-2xl p-5">Talismans</div>
-      <hr />
-      <Talismans charId={params.id} />
-
-      <Stats charId={params.id}/>
-
+      <CharacterTabs charId={params.id} stats={<Stats charId={params.id} />} />
     </div>
   );
 }
