@@ -1,5 +1,6 @@
 import Equipment from "@/components/equipment";
 import Stats from "@/components/stats";
+import Insignia from "@/components/insignia";
 import CharacterInfo from "@/components/basicinfo";
 import CharacterTabs from "@/components/characterTabs";
 
@@ -17,7 +18,11 @@ export default async function Page({ params }: { params: { id: string } }) {
       <hr />
       <CharacterInfo charId={params.id} />
       <div className="text-2xl p-5">Equipment</div>
-      <CharacterTabs charId={params.id} stats={<Stats charId={params.id} />} />
+      <CharacterTabs
+        charId={params.id}
+        stats={<Stats charId={params.id} />}
+        insignia={<Insignia charId={params.id} />}
+      />
     </div>
   );
 }

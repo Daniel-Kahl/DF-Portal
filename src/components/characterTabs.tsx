@@ -2,15 +2,16 @@
 
 import { Tabs } from "flowbite-react";
 import Equipment from "./equipment";
-import Insignia from "./insignia";
 import React from "react";
 
 export default function CharacterTabs({
   charId,
   stats,
+  insignia,
 }: {
   charId: string;
   stats: React.ReactNode;
+  insignia: React.ReactNode;
 }) {
   return (
     <>
@@ -24,8 +25,8 @@ export default function CharacterTabs({
         <Tabs.Item title="other">
           <p>test</p>
         </Tabs.Item>
-        <Tabs.Item title="insignia">
-          <Insignia charId={charId} />
+        <Tabs.Item active title="insignia">
+          {insignia}
         </Tabs.Item>
       </Tabs.Group>
     </>

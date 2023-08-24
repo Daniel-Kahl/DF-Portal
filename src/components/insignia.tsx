@@ -1,6 +1,5 @@
-"use client";
-import { useEffect, useState } from "react";
 import * as Models from "@/util/models";
+import { getInsignia } from "@/util/service";
 import Image from "next/image";
 
 const rarityColors = new Map<string, string>([
@@ -14,35 +13,18 @@ const rarityColors = new Map<string, string>([
   ["Mythic", "#FFB400"],
 ]);
 
-export default function Insignia({ charId }: { charId: string }) {
-  const [insignia, setInsignia] = useState<Models.Insignia>();
-  const [loading, setLoading] = useState<boolean>(true);
+export default async function Insignia({ charId }: { charId: string }) {
+  const insignia = await getInsignia(charId);
 
-  const fetchEquipment = async () => {
-    const insigniaResponse = await fetch(`/api/insignia/${charId}`);
-    const characterInsignia: Models.Insignia = await insigniaResponse.json();
-    setLoading(false);
-    setInsignia(characterInsignia);
-  };
-  useEffect(() => {
-    // Runs once on page loadup
-    fetchEquipment();
-  }, []);
   return (
-    <div className="p-5">
-      {insignia == undefined ? (
-        <div>loading</div>
-      ) : (
-        <div style={{ color: rarityColors.get(`${insignia.flag.itemRarity}`) }}>
-          <FlagImage equipFlag={insignia.flag} />
-          {" +"}
-          {insignia.flag.reinforce} {insignia.flag.itemName},{" "}
-          {insignia.flag.itemAbility}
-          {insignia.flag.gems.map((insignia, index) => (
-            <Gem key={index} equipGem={insignia} />
-          ))}
-        </div>
-      )}
+    <div style={{ color: rarityColors.get(`${insignia.flag.itemRarity}`) }}>
+      <FlagImage equipFlag={insignia.flag} />
+      {" +"}
+      {insignia.flag.reinforce} {insignia.flag.itemName},{" "}
+      {insignia.flag.itemAbility}
+      {insignia.flag.gems.map((insignia, index) => (
+        <Gem key={index} equipGem={insignia} />
+      ))}
     </div>
   );
 }
