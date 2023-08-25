@@ -6,10 +6,12 @@ import React from "react";
 
 export default function CharacterTabs({
   charId,
-  stats
+  stats,
+  insignia,
 }: {
-    charId: string;
-    stats: React.ReactNode;
+  charId: string;
+  stats: React.ReactNode;
+  insignia: React.ReactNode;
 }) {
   return (
     <>
@@ -18,10 +20,13 @@ export default function CharacterTabs({
           {stats}
         </Tabs.Item>
         <Tabs.Item title="equipment">
-            <Equipment charId={charId}/>
+          <Equipment charId={charId} />
         </Tabs.Item>
         <Tabs.Item title="other">
           <p>test</p>
+        </Tabs.Item>
+        <Tabs.Item active title="insignia">
+          {insignia}
         </Tabs.Item>
       </Tabs.Group>
     </>
