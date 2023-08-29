@@ -15,18 +15,19 @@ const rarityColors = new Map<string, string>([
 
 export default async function Insignia({ charId }: { charId: string }) {
   const insignia = await getInsignia(charId);
-
-  return (
-    <div style={{ color: rarityColors.get(`${insignia.flag.itemRarity}`) }}>
-      <FlagImage equipFlag={insignia.flag} />
-      {" +"}
-      {insignia.flag.reinforce} {insignia.flag.itemName},{" "}
-      {insignia.flag.itemAbility}
-      {insignia.flag.gems.map((insignia, index) => (
-        <Gem key={index} equipGem={insignia} />
-      ))}
-    </div>
-  );
+  if (insignia.flag != undefined) {
+    return (
+      <div style={{ color: rarityColors.get(`${insignia.flag.itemRarity}`) }}>
+        <FlagImage equipFlag={insignia.flag} />
+        {" +"}
+        {insignia.flag.reinforce} {insignia.flag.itemName},{" "}
+        {insignia.flag.itemAbility}
+        {insignia.flag.gems.map((insignia, index) => (
+          <Gem key={index} equipGem={insignia} />
+        ))}
+      </div>
+    );
+  }
 }
 
 function Gem({ equipGem }: { equipGem: Models.Gem }) {

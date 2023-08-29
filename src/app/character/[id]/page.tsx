@@ -3,6 +3,7 @@ import Stats from "@/components/stats";
 import Insignia from "@/components/insignia";
 import CharacterInfo from "@/components/basicinfo";
 import CharacterTabs from "@/components/characterTabs";
+import Avatar from "@/components/avatars";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const rows = [];
@@ -22,6 +23,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         charId={params.id}
         stats={<Stats charId={params.id} />}
         insignia={<Insignia charId={params.id} />}
+        avatar={<Avatar charId={params.id} />}
       />
     </div>
   );
