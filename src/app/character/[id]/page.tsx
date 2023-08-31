@@ -4,6 +4,7 @@ import Insignia from "@/components/insignia";
 import CharacterInfo from "@/components/basicinfo";
 import CharacterTabs from "@/components/characterTabs";
 import Avatar from "@/components/avatars";
+import BuffSwap from "@/components/buffswap";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const rows = [];
@@ -24,6 +25,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         stats={<Stats charId={params.id} />}
         insignia={<Insignia charId={params.id} />}
         avatar={<Avatar charId={params.id} />}
+        buffswap={<BuffSwap charId={params.id} />}
       />
     </div>
   );
