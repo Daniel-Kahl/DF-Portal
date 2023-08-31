@@ -9,11 +9,13 @@ export default function CharacterTabs({
   stats,
   insignia,
   avatar,
+  buffswap,
 }: {
   charId: string;
   stats: React.ReactNode;
   insignia: React.ReactNode;
   avatar: React.ReactNode;
+  buffswap: React.ReactNode;
 }) {
   return (
     <>
@@ -24,14 +26,14 @@ export default function CharacterTabs({
         <Tabs.Item title="equipment">
           <Equipment charId={charId} />
         </Tabs.Item>
-        <Tabs.Item title="other">
-          <p>test</p>
-        </Tabs.Item>
         <Tabs.Item active title="insignia">
           {insignia}
         </Tabs.Item>
         <Tabs.Item active title="avatar">
           {avatar}
+        </Tabs.Item>
+        <Tabs.Item active title="buffswap">
+          {buffswap}
         </Tabs.Item>
       </Tabs.Group>
     </>
